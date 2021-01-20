@@ -2,10 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medifly/home_screen.dart';
 import 'package:medifly/main.dart';
-import 'package:medifly/utilities/categories_data.dart';
 import 'package:medifly/utilities/constants.dart';
-import 'package:medifly/utilities/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 bool signed = false;
 

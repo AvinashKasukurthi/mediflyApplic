@@ -278,9 +278,7 @@ class _BookingScreenState extends State<BookingScreen> {
           ),
           Container(
             child: RaisedButton(
-              onPressed: () {
-                
-              },
+              onPressed: () {},
               color: kRedButton,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -301,7 +299,9 @@ class _BookingScreenState extends State<BookingScreen> {
                       child: Text(
                         '₹ ${widget.amount}',
                         style: kMainText.copyWith(
-                            color: Colors.white, fontSize: 25.0),
+                          color: Colors.white,
+                          fontSize: 25.0,
+                        ),
                       ),
                     ),
                   ],
