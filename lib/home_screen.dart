@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:medifly/utilities/cards_data.dart';
-
+import 'package:medifly/applic_accepted.dart';
 import 'package:medifly/utilities/constants.dart';
+import 'package:medifly/utilities/get_single_field_firebase.dart';
 
 FirebaseFirestore hospitalRef = FirebaseFirestore.instance;
 
@@ -89,19 +88,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              onPressed: () {
-                FirebaseFirestore.instance.collection('hospital_data').add({
-                  'name': name.text,
-                  'location': location.text,
-                  'cost': cost.text,
-                  'categories': categories.text.split(', '),
-                  'image': imageLink.text,
-                });
+              onPressed: () async {
+                int hospitalID = await updateAndGetIdFromFirebase();
+                redirectToApplicPage(context, hospitalID);
               },
             ),
           )
         ],
       )),
+    );
+  }
+
+  Future<int> updateAndGetIdFromFirebase() async {
+    int hospitalID = await getIdFromFirebase();
+    await incrementFirebaseIdField(hospitalID);
+    addDataToFirebaseHospitals(hospitalID);
+    return hospitalID;
+  }
+
+  void addDataToFirebaseHospitals(int hospitalID) {
+    FirebaseFirestore.instance
+        .collection('hospital_data')
+        .doc('Mdfly$hospitalID')
+        .set({
+      'name': name.text,
+      'location': location.text,
+      'cost': cost.text,
+      'categories': categories.text.split(', '),
+      'image': imageLink.text,
+      'password': 'Mdfly$hospitalID',
+    });
+  }
+
+  Future incrementFirebaseIdField(int hospitalID) async {
+    await FirebaseFirestore.instance
+        .collection('id_generator')
+        .doc('hospitalId')
+        .update({
+      'id': hospitalID + 1,
+    });
+  }
+
+  Future<int> getIdFromFirebase() async {
+    int hospitalID =
+        await FieldAccess().getSingleField('id', 'hospitalId', 'id_generator');
+    return hospitalID;
+  }
+
+  void redirectToApplicPage(BuildContext context, int hospitalID) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ApplicationSucceed(
+          docid: 'Mdfly$hospitalID',
+          categories: categories.text.split(', '),
+          cost: cost.text,
+          image: imageLink.text,
+          location: location.text,
+          name: name.text,
+        ),
+      ),
     );
   }
 }

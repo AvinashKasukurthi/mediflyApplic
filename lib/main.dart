@@ -3,11 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medifly/home_screen.dart';
 import 'package:flutter/services.dart';
-import 'package:medifly/utilities/auth_servises.dart';
+import 'file:///E:/Projects/mediflyApplic/lib/auth_servises.dart';
 import 'package:medifly/utilities/categories_data.dart';
-import 'package:medifly/utilities/profile_Screen.dart';
-import 'package:medifly/search_screen.dart';
-
 import 'package:medifly/utilities/time_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,8 +57,6 @@ class _MyAppState extends State<MyApp> {
           routes: {
             PhoneAuth.id: (context) => PhoneAuth(),
             HomeScreen.id: (context) => HomeScreen(),
-            ProfileScreen.id: (context) => ProfileScreen(),
-            SearchScreen.id: (context) => SearchScreen(),
           },
         ),
       ),
