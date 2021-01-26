@@ -47,26 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            HospitalTextFields(
-              hintText: 'Hospital Name',
-              controller: name
-            ),
-            HospitalTextFields(
-              hintText: 'Location',
-              controller: location
-            ),
-            HospitalTextFields(
-              hintText: 'Cost',
-              controller: cost
-            ),
-            HospitalTextFields(
-              hintText: 'Categories',
-              controller: categories
-            ),
-            HospitalTextFields(
-              hintText: 'Image link',
-              controller: imageLink
-            ),
+            HospitalTextFields(hintText: 'Hospital Name', controller: name),
+            HospitalTextFields(hintText: 'Location', controller: location),
+            HospitalTextFields(hintText: 'Cost', controller: cost),
+            HospitalTextFields(hintText: 'Categories', controller: categories),
+            HospitalTextFields(hintText: 'Image link', controller: imageLink),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: RaisedButton(
@@ -107,6 +92,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return hospitalID;
   }
 
+  Future<int> getIdFromFirebase() async {
+    int hospitalID =
+        await FieldAccess.getSingleField('id', 'hospitalId', 'id_generator');
+    return hospitalID;
+  }
+
+  Future incrementFirebaseIdField(int hospitalID) async {
+    await FirebaseFirestore.instance
+        .collection('id_generator')
+        .doc('hospitalId')
+        .update({
+      'id': hospitalID + 1,
+    });
+  }
+
   void addDataToFirebaseHospitals(int hospitalID) {
     FirebaseFirestore.instance
         .collection('hospital_data')
@@ -119,21 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
       'image': imageLink.text,
       'password': 'Mdfly$hospitalID',
     });
-  }
-
-  Future incrementFirebaseIdField(int hospitalID) async {
-    await FirebaseFirestore.instance
-        .collection('id_generator')
-        .doc('hospitalId')
-        .update({
-      'id': hospitalID + 1,
-    });
-  }
-
-  Future<int> getIdFromFirebase() async {
-    int hospitalID =
-        await FieldAccess.getSingleField('id', 'hospitalId', 'id_generator');
-    return hospitalID;
   }
 
   void redirectToApplicPage(BuildContext context, int hospitalID) {
