@@ -64,18 +64,13 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-bool _alreadyVisited;
-
 setVisitingFlag(User user) async {
   print('phone');
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString('phoneNo', user.phoneNumber);
   print('phone number Invoked');
-  _alreadyVisited = true;
 }
 
 setVisitData(User user) async {
   setVisitingFlag(user);
-
-  print('object');
 }

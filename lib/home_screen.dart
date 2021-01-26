@@ -45,57 +45,58 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: ListView(
-        children: [
-          HospitalTextFields(
-            hintText: 'Hospital Name',
-            controller: name,
-          ),
-          HospitalTextFields(
-            controller: location,
-            hintText: 'Location',
-          ),
-          HospitalTextFields(
-            hintText: 'Cost',
-            controller: cost,
-          ),
-          HospitalTextFields(
-            controller: categories,
-            hintText: 'Categories',
-          ),
-          HospitalTextFields(
-            hintText: 'Image link',
-            controller: imageLink,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: RaisedButton(
-              shape: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(30.0),
-                ),
-              ),
-              elevation: 3.0,
-              color: kPrimaryColorBlue,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
+        child: ListView(
+          children: [
+            HospitalTextFields(
+              hintText: 'Hospital Name',
+              controller: name
+            ),
+            HospitalTextFields(
+              hintText: 'Location',
+              controller: location
+            ),
+            HospitalTextFields(
+              hintText: 'Cost',
+              controller: cost
+            ),
+            HospitalTextFields(
+              hintText: 'Categories',
+              controller: categories
+            ),
+            HospitalTextFields(
+              hintText: 'Image link',
+              controller: imageLink
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: RaisedButton(
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30.0),
                   ),
                 ),
+                elevation: 3.0,
+                color: kPrimaryColorBlue,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  int hospitalID = await updateAndGetIdFromFirebase();
+                  redirectToApplicPage(context, hospitalID);
+                },
               ),
-              onPressed: () async {
-                int hospitalID = await updateAndGetIdFromFirebase();
-                redirectToApplicPage(context, hospitalID);
-              },
-            ),
-          )
-        ],
-      )),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -131,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<int> getIdFromFirebase() async {
     int hospitalID =
-        await FieldAccess().getSingleField('id', 'hospitalId', 'id_generator');
+        await FieldAccess.getSingleField('id', 'hospitalId', 'id_generator');
     return hospitalID;
   }
 
